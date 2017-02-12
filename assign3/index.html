@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Locey Assignment 3</title>
+</head>
+
+<style>
+
+    H1 {color:darkmagenta;padding:0;margin:0;}
+    H3 {color:cadetblue;padding:0;margin:0;}
+
+</style>
+
+<body>
+
+    <h1>Assignment 3</h3>
+    <h3>Mackenzie Locey</h5>
+
+    <br>
+
+    <a href="#" onclick="changeMap('basemapStreets')">Basemap</a> &nbsp;&nbsp;&nbsp;
+    <a href="#" onclick="changeMap('scenicByways_border')">Scenic Byways</a>&nbsp;&nbsp;&nbsp;
+    <a href="#" onclick="changeMap('Zipcode')">Zipcodes</a>&nbsp;&nbsp;&nbsp;
+    <a href="#" onclick="changeMap('areaCode')">Area Codes</a>&nbsp;&nbsp;&nbsp;
+    <a href="#" onclick="changeMap('usHouse2013')">US House Distrcits</a>&nbsp;&nbsp;&nbsp;
+    
+    <br>
+    
+    <img id="myMap" src="basemapStreets.png" alt="BasemapStreets" width="600" height="400">
+    
+</body>
+
+<script>
+   
+    function changeMap(x) {
+        document.getElementById("myMap").src=""+ x + ".png";
+    }
+    
+</script>
+    
+</html>
