@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    
+    <title>Locey Assignment 5</title>
+    
+</head>    
+    
+<style>
+    
+    H1 {color:azure; font-family:sans-serif;}
+    H3 {color:azure; font-family: sans-serif;}
+    P {color:aliceblue; font-family: sans-serif;}
+    body {background-color:cornflowerblue;}
+    .dropbtn {background-color:darkblue; color:aliceblue;}
+    .dropbtn {background-color:darkblue;color: white;padding: 16px;font-size: 16px;border: none;cursor: pointer;color: aliceblue}
+    .dropbtn:hover, .dropbtn:focus {background-color:cadetblue;}
+    .dropdown {position: relative;display: inline-block;}
+    .dropdown-content {display: none;position: absolute;background-color:cadetblue;min-width: 300px;box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);z-index: 1;font-family: sans-serif;}
+    .dropdown-content a {color:aliceblue;padding: 12px 16px;text-decoration: none;display: block;}
+    .dropdown-content a:hover {background-color:azure;}
+    .show {display:block;}
+    
+</style>
+    
+<body>
+    
+    <h1>Assignment 5</h1>
+    <h3>Mackenzie Locey</h3>
+    
+    <p>Where are you from?</p>
+    <form action="">
+        <input type="radio" name="home" value="iowa">Iowa<br> 
+        <input type="radio" name="home" value="nebraska">Nebraska<br>
+        <input type="radio" name="home" value="minnesota">Minnesota<br>
+        <input type="radio" name="home" value="south dakota">South Dakota<br>
+        <input type="radio" name="home" value="wisconsin">Wisconsin<br>
+        <input type="radio" name="home" value="illinois">Illinois<br>
+        <input type="radio" name="home" value="missouri">Missouri<br>
+        <input type="radio" name="home" value="other">Other<br>
+    </form>
+    
+    <p>Why did you decide to come to ISU?</p>
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Please Select</button>
+        <div id="myDropdown" class="dropdown-content">
+            <a href="#">Born and raised a cyclone</a>
+            <a href="#">The major I wanted to pursue</a>
+            <a href="#">Money reasons</a>
+            <a href="#">Close to home</a>
+            <a href="#">Far away from home</a>
+            <a href="#">Other</a>
+        </div>
+    </div>
+     <br>
+    <br>
+    <p>What is your major?</p>
+    <form>
+        <input type="text" name="major">
+    </form>
+    <br>
+    <iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/directions?origin=bettendorf%2C%20ia&destination=ames%2C%20ia&key=AIzaSyBWgPQo_sxU0vOpLvAEhU4FY-PI0zGm1b0" allowfullscreen></iframe>
+    
+</body>
+    
+<script>
+    
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+    
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+    
+</script>
+
+</html>
