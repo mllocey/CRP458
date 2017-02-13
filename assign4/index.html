@@ -1,0 +1,34 @@
+<!DOCTYPE>
+<html>
+
+<head>
+    <title>Locey Assignment 4</title>
+</head>
+    
+<body>
+    
+    <p>
+    
+        <label for="name1">Enter a number to learn the order of the Presidents:</label> &nbsp; 
+        <input type="text" id="PresidentNum" onchange="PresidentDisplay()" value="-"/> 
+    
+        <div id="slider-range-max"></div>
+        <div id="PresidentName">-</div>
+    
+    </p>
+    
+</body>
+    
+<script>
+    
+    var PresidentList = ["George Washington", " John Adams", "Thomas Jefferson", "James Madison", "James Monroe", "John Quincy Adams", "Andrew Jackson", "Martin Van Buren", "William Henry Harrison", "John Tyler", "James Polk", "Zachary Taylor", "Millard Filmore", "Franklin Pierce", "James Buchanan", "Abraham Lincon", "Andrew Johnson", "Ulysses S Grant", "Rutherford B Hayes", "James Garfield", "Chester Arthur", "Grover Cleveland", "Benjamin Harrison", "Grover Cleveland", "William McKinley", "Theodore Roosevelt", "William Howard Taft", "Woodrow Wilson", "Warren G Harding","Calvin Coolidge", "Herbert Hoover", "Franklin Roosevelt", "Harry S Truman", "Dwight Eisenhower", "John F Kennedy", "Lyndon Johnson", "Richard Nixon", "Gerald Ford", "Jimmy Carter", "Ronald Reagan", "George H.W. Bush", "Bill Clinton", "George W Bush", "Barack Obama", "Donald J Trump"];
+    
+    console.log(PresidentList.length);
+    
+    function PresidentDisplay() {
+        x=document.getElementById("PresidentNum").value;
+        console.log("wrong:"+PresidentList[x]+", correct:"+PresidentList[x-1]);
+        document.getElementById("PresidentName").innerHTML = PresidentList[x-1];
+    }
+    
+</script>
