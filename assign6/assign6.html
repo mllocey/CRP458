@@ -13,7 +13,8 @@
     body {background-color: lightgray;}
     #test {color:crimson;font-family: sans-serif;text-decoration: inherit;text-align: inherit;}
     #frog {color:gold; font-family: sans-serif;text-decoration: inherit;text-align: inherit;}
-    button {background-color: gray;color:white;font-family: sans-serif;}
+    #cow {background-color: gray;color:white;font-family: sans-serif;}
+    #horse {background-color: gray;color:white;font-family: sans-serif;}
     h1 {color: black;font-family: sans-serif;text-align: center;text-decoration: underline;}
     #toad {color: gray; font-family: sans-serif;text-align: center;}
     h3 {color:dimgray;font-family: sans-serif;text-align: center;}
@@ -29,18 +30,23 @@
 <script>
     
     $(document).ready(function(){
-        $('.dog').css({opacity:'0.5',fontWeight:'bold',color:'red'});
+        $("#horse").click(funciton(){
+            $('.pig').hide();
+        });
     });
     
+    $(document).ready(function(){
+        $('.dog').css({opacity:'0.5',fontWeight:'bold',color:'red'});
+    });
     
     $(document).ready(function(){
         $('#frog').hide();
     });
     
     $(document).ready(function(){
-        $("button").click(function(){
+        $("#cow").click(function(){
             $("#test").hide();
-                $('button').click(function(){
+                $('#cow').click(function(){
                     $('#test').toggle();
                 });
             $('#frog').toggle();
@@ -65,10 +71,14 @@
     <h2>Example 2: the #id selector </h2><p> When you click the button it toggles back and forth between "Cyclone" and "Power".</p>
     <h1 id='test'>Cyclone!</h1>
     <h1 id='frog'>Power!</h1>
-    <button >Click to show your ISU spirit!</button><br><br>
+    <button id='cow'>Click to show your ISU spirit!</button><br><br>
     
     <h2>Example 3: the class selector</h2><p>The opacity of this text is 50%</p>
     <p class='dog'>Go Cyclones!</p><br><br>
+    
+    <h2>Example 4:</h2><p>Click the button to get rid of the bad text!</p>
+    <p>Go Hawkeyes!</p>
+    <button id='horse'>Click me!</button>
     
 </body>
     
