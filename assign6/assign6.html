@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    
+    <title>Locey Assignment 6</title>
+    
+</head> 
+    
+<style>
+    
+    body {background-color: lightgray;}
+    #test {color:crimson;font-family: sans-serif;text-decoration: inherit;text-align: inherit;}
+    #frog {color:gold; font-family: sans-serif;text-decoration: inherit;text-align: inherit;}
+    button {background-color: gray;color:white;font-family: sans-serif;}
+    h1 {color: black;font-family: sans-serif;text-align: center;text-decoration: underline;}
+    #toad {color: gray; font-family: sans-serif;text-align: center;}
+    h3 {color:dimgray;font-family: sans-serif;text-align: center;}
+    p {font-family: sans-serif;}
+    h5 {font-family: sans-serif;}
+    .dog {font-family:sans-serif;}
+    h2 {font-family: sans-serif;}
+    
+</style>
+    
+<script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+    
+<script>
+    
+    $(document).ready(function(){
+        $('.dog').css({opacity:'0.5',fontWeight:'bold',color:'red'});
+    });
+    
+    
+    $(document).ready(function(){
+        $('#frog').hide();
+    });
+    
+    $(document).ready(function(){
+        $("button").click(function(){
+            $("#test").hide();
+                $('button').click(function(){
+                    $('#test').toggle();
+                });
+            $('#frog').toggle();
+        });
+    });
+    
+    $(document).ready(function(){
+        $('h5').fadeOut(2000).fadeIn(2000).fadeOut(2000).fadeIn(2000).fadeOut(2000).fadeIn(2000).fadeOut(2000).fadeIn(2000).fadeOut(2000).fadeIn(2000).fadeOut(2000).fadeIn(2000).fadeOut(2000).fadeIn(2000).fadeOut(2000).fadeIn(2000).fadeOut(2000).fadeIn(2000).fadeOut(2000).fadeIn(2000);
+    });
+    
+</script>
+    
+<body>
+    
+    <h1>Assignment 6</h1>
+    <h2 id='toad'>Mackenzie Locey</h2>
+    <h3>CRP 458</h3>
+    
+    <h2>Example 1: the element selector</h2> <p>The paragraph will fade in and out for 2 seconds each 20 times.</p>
+    <h5>Oh we will fight, fight, fight for Iowa State<br>and may her colors ever fly<br>yes we will fight with might for Iowa State<br>with a will to do or die<br>Rah! Rah! Rah!<br>Loyal sons forever true<br>and we will fight the battle through<br>and when we hit that yard we'll hit it hard<br>every yard for I.S.U.!</h5><br><br>
+    
+    <h2>Example 2: the #id selector </h2><p> When you click the button it toggles back and forth between "Cyclone" and "Power".</p>
+    <h1 id='test'>Cyclone!</h1>
+    <h1 id='frog'>Power!</h1>
+    <button >Click to show your ISU spirit!</button><br><br>
+    
+    <h2>Example 3: the class selector</h2><p>The opacity of this text is 50%</p>
+    <p class='dog'>Go Cyclones!</p><br><br>
+    
+</body>
+    
+</html>
