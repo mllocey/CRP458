@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+    
+        <title>Locey Assignment 7</title>
+    
+        <script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+        
+    </head> 
+
+    <style>
+    
+        body {background-color: aliceblue; font-family:sans-serif;}
+        h4 {text-align: center;}
+        img {position:absolute;left: 150px;top:0px;z-index: -1;display:none;}
+        #container {position:absolute;left:0px;top:0px;width:750px;height:400px;border:solid;border-width: 1px;}
+        #menu {position: absolute;left:0px;top:0px;width:150px;height:400px;background-color: midnightblue; color:floralwhite;padding-left: 5px;font-size: small;}
+        #menu h4 {margin-bottom: 0px;}
+        
+    </style>
+
+    <script>
+    
+        $(function() {
+            var totalMaps=7;
+            for (i=0; i < totalMaps; i++) {
+                $('#map'+i).hide();
+            }
+            $('#map0').show();
+            $('input:radio[name=basemap]').click(function() {
+                base= $('input:radio[name=basemap]:checked').val();
+                $('#map0, #map1').hide();
+                $('#map'+base).show();
+            });
+            $('.maplayer').change(function(){
+                x=$(this).val();
+                $('#map'+x).toggle();
+            });
+        })
+    
+    </script>    
+
+    <body>
+    
+        <div id='container'>
+            
+            <div id='menu'>
+                <h4>Map Layers</h4>
+                <input type='radio'name='basemap' value='0' checked> Topo Basemap
+                <br>
+                <input type='radio' name='basemap' value='1'> Street Basemap
+                <br>
+                <hr>
+                <input type='checkbox' class='maplayer' value='2'> Bed and Breakfasts
+                <br>
+                <input type='checkbox' class='maplayer' value='3'> Canoe Routes
+                <br>
+                <input type='checkbox' class='maplayer' value='4'> Museums
+                <br>
+                <input type='checkbox' class='maplayer' value='5'> Vineyards
+                <br>
+                <input type='checkbox' class='maplayer' value='6'> Wind Turbines
+            </div>
+            
+            <div id='maps'>
+                <img id='map0' src="basemapTopo.png">
+                <img id='map1' src='basemapStreets.png'>
+                <img id='map2' src="bedBreakfast.png">
+                <img id='map3' src="canoeRoutes.png">
+                <img id='map4' src="museums.png">
+                <img id='map5' src="vineyards.png">
+                <img id='map6' src='windTurbines.png'>
+            </div>
+            
+        </div>
+        
+    </body>
+    
+</html>
