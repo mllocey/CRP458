@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+    
+        <title>Locey Assignment 8</title>
+    
+        <script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+        
+       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+       <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+        
+    </head> 
+    
+    <style>
+    
+        #mapid { height: 600px; }
+    
+    </style>
+    
+    <body>
+    
+        <div id="mapid"></div>
+    
+    </body>
+    
+    <script>
+    
+       var mymap = L.map('mapid').setView([42.0, -93.634], 12);
+       
+       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+           maxZoom: 18,
+        id: 'your.mapbox.project.id',
+        accessToken: 'your.mapbox.public.access.token'
+        }).addTo(mymap);
+
+        var marker1 = L.marker([42.008277, -93.670848]).addTo(mymap).bindPopup("My Apartment").openPopup();
+        var marker2 = L.marker([42.028676, -93.653017]).addTo(mymap).bindPopup('College of Design').openPopup();
+        var marker3 = L.marker([42.026965, -93.639828]).addTo(mymap).bindPopup('Forker Building').openPopup();
+        
+        var circle1 = L.circle([42.017283, -93.637178], 200, {color: 'orange', fillOpacity:0.2, weight:15,}).addTo(mymap).bindPopup('Commuter Lot Bus Stop').openPopup();
+        var circle2 = L.circle([42.027391, -93.652410], 50, {color: 'purple', fillOpacity:1, weight: 10,}).addTo(mymap).bindPopup('Ag and BioSystems Engineering Advising Office').openPopup();
+        
+        var cm1 = new L.circleMarker([42.022475,-93.653848], {radius: 5 ,color: 'green', fillOpacity:0.3 ,}).addTo(mymap).bindPopup('Dunkin Donuts - cheapest coffee').openPopup();
+        var cm2 = new L.circleMarker([42.027387,-93.652722], {radius: 7,color: 'green', fillOpacity:0.6 ,}).addTo(mymap).bindPopup('ABE Harvest Cafe - moderately priced coffee').openPopup();
+        var cm3 = new L.circleMarker([42.022569,-93.646668], {radius: 9,color: 'green', fillOpacity: 1,}).addTo(mymap).bindPopup('Starbucks - expensive coffee').openPopup();
+           
+    </script>
+    
+</html>
