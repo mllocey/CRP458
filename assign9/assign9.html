@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+    
+        <title>Locey Assignment 9</title>
+    
+        <script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+        
+       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+       <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+        
+    </head>
+    
+    <style>
+    
+        #mapid { height: 600px; }
+        
+        html {
+            background: #e6e9e9;
+            background-image: linear-gradient(270deg, rgb(230, 233, 233) 0%, rgb(216, 221, 221) 100%);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: #fff;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
+            color: #545454;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 2em 2em 4em;
+        }
+    
+        h1, h2, h3 {
+            color: #222;
+            font-weight: 600;
+            line-height: 1.3;
+            text-align: center;
+        }
+        
+    </style>
+    
+    <body>
+    
+        <h1>Assignment 9</h1>
+        <h2>Mackenzie Locey</h2>
+        <h3>CRP 458</h3>
+        
+        <div id="mapid"></div>
+    
+    </body>
+    
+    <script>
+    
+        var mymap = L.map('mapid').setView([42.0, -93.634], 12);
+       
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors', maxZoom:18}).addTo(mymap);
+        
+        var mymarker = L.marker([42.008277, -93.670848]).addTo(mymap).bindPopup("<p><b>My Apartment</b><br>2.6 miles from ISU campus</P").openPopup();
+        
+        var myIcon1 = L.icon({iconUrl: 'leaf-red.png',iconSize: [38, 95],iconAnchor: [22, 94],popupAnchor: [-3, -76],shadowUrl: 'leaf-shadow.png',shadowSize: [68, 95],shadowAnchor: [22, 94]});
+        L.marker([42.028800, -93.652916], {icon: myIcon1}).addTo(mymap).bindPopup('<p><b>ISU College of Design</b><br>Location of the Dept of Community and Regional Planning</p>').openPopup();
+        
+
+        var myPoints = [
+            ['10',42.011858,-93.679412,'store'], 
+            ['10',42.021740,-93.670012,'store'], 
+            ['20',42.022603,-93.653809,'coffee/food'], 
+            ['25',42.021293,-93.655323,'random'], 
+            ['15',42.029447,-93.652625,'class'], 
+            ['15',42.026634,-93.644059,'class'], 
+            ['15',42.030157,-93.642777,'class'], 
+            ['30',42.027003,-93.640094,'class'], 
+            ['20',42.023085,-93.615026,'coffee/food'], 
+            ['25',42.010691,-93.609666,'coffee/food']
+        ];
+        
+        function getColor(d) {
+            return  d == 'store' ? '#00FF00' :
+                    d == 'coffee/food' ? '#9F81F7' :
+                    d == 'random' ? '#04B4AE' :
+                    d == 'class' ? '#FF0080' :
+                    '#FFFFFF';
+        }
+        
+        for (var i=0; i<myPoints.length; i++) {
+            marker = new L.circleMarker([myPoints[i][1],myPoints[i][2]], {
+                radius: myPoints[i][0]/2,
+                fillColor: getColor(myPoints[i][3]),
+                color: '#000',
+                weight: 0,
+                opacity: 1,
+                fillOpacity:0.7
+            })
+            .addTo(mymap).bindPopup('Category: '+myPoints[i][3]);
+        }
+    
+    </script>
+    
+</html>
