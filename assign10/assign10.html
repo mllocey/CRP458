@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+    
+        <title>Locey Assignment 10</title>
+    
+        <script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+        
+       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+       <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+        
+    </head>
+    
+    <style>
+    
+        #mapid { height: 600px; }
+        
+        button {background-color: cadetblue; color:ghostwhite;padding:5px;margin-bottom: 10px;font-size:14px;}
+        
+        html {
+            background: #e6e9e9;
+            background-image: linear-gradient(270deg, rgb(230, 233, 233) 0%, rgb(216, 221, 221) 100%);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: #fff;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
+            color: #545454;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 2em 2em 4em;
+        }
+    
+        h1, h2, h3 {
+            color: #222;
+            font-weight: 600;
+            line-height: 1.3;
+            text-align: center;
+        }
+        
+    </style>
+    
+    <body>
+    
+        <h1>Assignment 10</h1>
+        <h2>Mackenzie Locey</h2>
+        <h3>CRP 458</h3>
+        <hr>
+        
+        <p>If you click anywhere on the map it will create a new marker at that location. You can change where you placed the marker by just clicking in a new location or dragging the marker around. Each of the below buttons will take you to a map of that city.</p>
+        
+        <button type='button' id='Bettendorf'>Bettendorf</button>
+        <button type='button' id='Newton'>Newton</button>
+        <button type='button' id='DesMoines'>Des Moines</button>
+        <button type='button' id='Ames'>Ames</button>
+        
+        <div id="mapid"></div>
+    
+    </body>
+    
+    <script>
+    
+        var map = L.map('mapid').setView([42.0, -93.634], 12);
+       
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors', maxZoom:18}).addTo(map);
+        
+        function onMapClick(e) {
+            var marker=L.marker(e.latlng, {draggable:true, title: 'Resource Location', alt: 'Resource Location 2',riseOnHover: true}).addTo(map).bindPopup(e.latlng.toString()).openPopup();
+            marker.on('dragend',function(ev){
+                var changedPos= ev.target.getLatLng();
+                this.bindPopup(changedPos.toString()).openPopup();
+            });
+        }
+        map.on('click',onMapClick);
+        
+        $(document).ready(function(){
+            $('#Bettendorf').click(function(){
+               map.setView([41.559554,-90.483387],12);
+            }); 
+            $('#Newton').click(function(){
+               map.setView([41.701068,-93.057359],12);
+           });
+            $('#DesMoines').click(function(){
+               map.setView([41.597209,-93.604458],12);
+           });
+            $('#Ames').click(function(){
+               map.setView([42.0, -93.634], 12);
+           });
+        });
+    
+    </script>
+    
+</html>
