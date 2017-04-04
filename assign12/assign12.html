@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Locey Assignment 12</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+
+	<style>
+		#map {
+			width: 600px;
+			height: 400px;
+		}
+        
+        button {background-color: cadetblue; color:ghostwhite;padding:5px;margin-bottom: 10px;font-size:14px;}
+        
+        html {
+            background: #e6e9e9;
+            background-image: linear-gradient(270deg, rgb(230, 233, 233) 0%, rgb(216, 221, 221) 100%);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: #fff;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
+            color: #545454;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 2em 2em 4em;
+        }
+    
+        h1, h2, h3 {
+            color: #222;
+            font-weight: 600;
+            line-height: 1.3;
+            text-align: center;
+        }
+        
+	</style>
+
+	
+</head>
+<body>
+    
+    <h1>Assignment 12</h1>
+        <h2>Mackenzie Locey</h2>
+        <h3>CRP 458</h3>
+        <hr>
+
+<div id='map'></div>
+
+<script>
+	var cities = new L.LayerGroup();
+
+	L.marker([41.566927, -93.773800]).bindPopup('West Des Moines').addTo(cities),
+	L.marker([41.604542, -93.772962]).bindPopup('Clive').addTo(cities),
+	L.marker([41.651275, -93.480027]).bindPopup('Altoona').addTo(cities);
+
+
+	var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+	var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+		streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+
+	var map = L.map('map', {
+		center: [41.588120, -93.616198],
+		zoom: 7,
+		layers: [grayscale, cities]
+	});
+    
+    var mygeojson= {"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"LineString","coordinates":[[-96.6357421875,43.50872101129684],[-91.417236328125,40.371658891506094]]}},{"type":"Feature","properties":{},"geometry":{"type":"LineString","coordinates":[[-91.20849609375,43.50075243569041],[-95.712890625,40.588928169693745]]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-93.812255859375,41.828642001860544]}}]}
+    
+    var GeoJSON1 = new L.LayerGroup();
+    
+    L.geoJSON(mygeojson).addTo(GeoJSON1);
+    
+    var cityLayerGroup= new L.LayerGroup();
+
+     var polyline = L.polyline([
+        [41.588120, -93.616198],
+        [41.696967, -93.058046],
+        [42.026074, -93.626379]
+        ], {color: 'blue'}).addTo(cityLayerGroup);
+    
+    var ames= L.marker([42.026074, -93.626379]).bindPopup('This is Ames').addTo(cityLayerGroup);
+    var newton=L.marker([41.696967, -93.058046]).bindPopup('This is Newton').addTo(cityLayerGroup);
+    var desmoines=L.marker([41.588120, -93.616198]).bindPopup('This is Des Moines').addTo(cityLayerGroup);
+    
+    var hometown= new L.LayerGroup();
+    
+    var bettendorf=L.marker([41.556902,-90.494917]).bindPopup('This is Bettendorf, IA').addTo(hometown);
+    
+	var baseLayers = {
+		"Grayscale": grayscale,
+		"Streets": streets
+	};
+
+	var overlays = {
+		"Des Moines suburbs": cities,
+        "Some connected cities": cityLayerGroup,
+        "My hometown": hometown,
+        "GeoJSON": GeoJSON1
+	};
+
+	L.control.layers(baseLayers, overlays).addTo(map);
+    
+   
+
+   
+    
+</script>
+
+
+
+</body>
+</html>
