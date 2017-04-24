@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Locey Mini Project</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="https://indicator.extension.iastate.edu/classes/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>
+
+
+	<style>
+		#map {
+			width: 600px;
+			height: 400px;
+		}
+        
+        button {background-color: cadetblue; color:ghostwhite;padding:5px;margin-bottom: 10px;font-size:14px;}
+        
+        html {
+            background: #e6e9e9;
+            background-image: linear-gradient(270deg, rgb(230, 233, 233) 0%, rgb(216, 221, 221) 100%);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: #fff;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
+            color: #545454;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 2em 2em 4em;
+        }
+    
+        h1, h2, h3 {
+            color: #222;
+            font-weight: 600;
+            line-height: 1.3;
+            text-align: center;
+        }
+        
+	</style>
+
+	
+</head>
+<body>
+    
+    <h1>Mini Project</h1>
+    <h2>Earthquakes in the past hour, day, week, and month from USGS data</h2>
+        <h2>Mackenzie Locey</h2>
+        <h3>CRP 458</h3>
+        <hr>
+
+<div id='map'></div>
+
+<script>
+    
+	var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+    var geojsonMarkerOptions = { radius: 5, fillColor: "#ff7800", color: "#000", weight: 0, opacity: 1, fillOpacity: 0.3};
+    var getColor(d) {return d > 5 ? '#FF0000' : d > 3 ? 'yellow' : d > 1 ? 'gray' : '#FFFFFF';}
+    
+	var pasthour = new L.GeoJSON.AJAX('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson', {
+        pointToLayer: funciton (feature, latlng) {
+        return new L.CircleMarker(latlng, geojsonMarkerOptions);
+        }, 
+        style: function(feature) { 
+            return {
+                radius: feature.properties.mag*1.5,
+                fillColor: getColor(feature.properties.mag)
+            };
+    },
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup("Mag: " + feature.properties.mag + "<br> Place: " + feature.properties.place);
+    }
+    }).addTo(map);
+    
+    var pastday = new L.GeoJSON.AJAX('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson', {
+        pointToLayer: funciton (feature, latlng) {
+        return new L.CircleMarker(latlng, geojsonMarkerOptions);
+        }, 
+        style: function(feature) { 
+            return {
+                radius: feature.properties.mag*1.5,
+                fillColor: getColor(feature.properties.mag)
+            };
+    },
+    onEachFeature: function (feature, layer){
+        layer.bindPopup("Mag: " + feature.properties.mag + "<br> Place: " + feature.properties.place);
+    }
+    }).addTo(map);
+    
+     var pastweek = new L.GeoJSON.AJAX('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson', {
+         pointToLayer: funciton (feature, latlng) {
+         return new L.CircleMarker(latlng, geojsonMarkerOptions);
+        }, 
+        style: function(feature) {
+         return {
+             radius: feature.properties.mag*1.5,
+             fillColor: getColor(feature.properties.mag)
+         };
+     },
+         onEachFeature: function (feature, layer){ 
+             layer.bindPopup("Mag: " + feature.properties.mag + "<br> Place: " + feature.properties.place);
+         }
+    }).addTo(map);
+    
+     var pastmonth = new L.GeoJSON.AJAX('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson', {
+         pointToLayer: funciton (feature, latlng) {
+         return new L.CircleMarker(latlng, geojsonMarkerOptions);
+        }, 
+        style: function(feature) { 
+         return {
+             radius: feature.properties.mag*1.5,
+             fillColor: getColor(feature.properties.mag)
+         };
+     },
+         onEachFeature: function (feature, layer){
+             layer.bindPopup("Mag: " + feature.properties.mag + "<br> Place: " + feature.properties.place);
+         }
+    }).addTo(map);
+    
+	var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+		streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+    
+	var map = L.map('map', {
+		center: [37.571141, -120.928168],
+		zoom: 4,
+		layers: [grayscale, pasthour]
+	});
+
+	var baseLayers = {
+		"Grayscale": grayscale,
+		"Streets": streets
+	};
+
+	var overlays = {
+		"Earthquakes in the Past Hour": pasthour,
+        "Earthquakes in the Past Day" : pastday,
+        "Earthquakes in the Past Week" : pastweek,
+        "Earthquakes in the Past Month" : pastmonth
+	};
+
+	L.control.layers(baseLayers, overlays).addTo(map);
+    
+    
+</script>
+
+</body>
+</html>
