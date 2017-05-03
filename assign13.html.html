@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by mllocey (http://jsbin.com/guyuzot/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+	
+	<title>Locey Assignment 13</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+
+
+
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+	
+	<script src="https://indicator.extension.iastate.edu/classes/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>
+
+
+	<style>
+
+        
+	</style>
+
+	
+<style id="jsbin-css">
+		#map {
+			width: 600px;
+			height: 400px;
+		}
+        
+        button {background-color: cadetblue; color:ghostwhite;padding:5px;margin-bottom: 10px;font-size:14px;}
+        
+        html {
+            background: #e6e9e9;
+            background-image: linear-gradient(270deg, rgb(230, 233, 233) 0%, rgb(216, 221, 221) 100%);
+            -webkit-font-smoothing: antialiased;
+        }
+        body {
+            background: #fff;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
+            color: #545454;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 2em 2em 4em;
+        }
+    
+        h1, h2, h3 {
+            color: #222;
+            font-weight: 600;
+            line-height: 1.3;
+            text-align: center;
+        }
+</style>
+</head>
+<body>
+    
+    <h1>Assignment 13</h1>
+        <h2>Mackenzie Locey</h2>
+        <h3>CRP 458</h3>
+        <hr>
+
+<div id='map'></div>
+
+<script>
+	
+</script>
+
+
+
+<script id="jsbin-javascript">
+var cities = new L.LayerGroup();
+	L.marker([41.566927, -93.773800]).bindPopup('West Des Moines').addTo(cities),
+	L.marker([41.604542, -93.772962]).bindPopup('Clive').addTo(cities),
+	L.marker([41.651275, -93.480027]).bindPopup('Altoona').addTo(cities);
+	var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+	var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+		streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+	var map = L.map('map', {
+		center: [41.588120, -93.616198],
+		zoom: 7,
+		layers: [grayscale, cities]
+	});
+
+function getColor(d) {
+   return d <= '10000'  ? '#D6EAF8' :
+          d <= '25000'  ? "#7FB3D5  " :
+          d <= '50000'  ? "#2980B9  " :
+          d <= '75000'  ? "#1F618D  " : 
+          d <= '500000' ? "#154360" :
+                          "#FFFFFF"; //white for anything else
+}
+
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.Population),
+        weight: 1,
+        opacity: 1,
+        color: 'white',
+        dashArray: '1',
+        fillOpacity: 0.75
+    };
+}
+
+
+myURL = 'https://gist.githubusercontent.com/mllocey/22abf1701453b5ee4b77e26f719b3a0d/raw/28a247b02c3fed17f68a4291aee4b603f29e8d3b/iowacounties.geojson';
+
+var geojsonLayer = new L.GeoJSON.AJAX(myURL , {
+      style: style,
+      onEachFeature: function (feature, layer) {
+            htmlText = "<strong>" + feature.properties.NAME+ "</strong><br>Population: " + feature.properties.Population;
+            layer.bindPopup(htmlText);
+        layer.bindTooltip(feature.properties.NAME);
+        }
+    }).addTo(map);
+
+    
+    var cityLayerGroup= new L.LayerGroup();
+     var polyline = L.polyline([
+        [41.588120, -93.616198],
+        [41.696967, -93.058046],
+        [42.026074, -93.626379]
+        ], {color: 'blue'}).addTo(cityLayerGroup);
+    
+    var ames= L.marker([42.026074, -93.626379]).bindPopup('This is Ames').addTo(cityLayerGroup);
+    var newton=L.marker([41.696967, -93.058046]).bindPopup('This is Newton').addTo(cityLayerGroup);
+    var desmoines=L.marker([41.588120, -93.616198]).bindPopup('This is Des Moines').addTo(cityLayerGroup);
+    
+    var hometown= new L.LayerGroup();
+    
+    var bettendorf=L.marker([41.556902,-90.494917]).bindPopup('This is Bettendorf, IA').addTo(hometown);
+    
+	var baseLayers = {
+		"Grayscale": grayscale,
+		"Streets": streets
+	};
+	var overlays = {
+		"Des Moines suburbs": cities,
+        "Some connected cities": cityLayerGroup,
+        "My hometown": hometown,
+
+	};
+	L.control.layers(baseLayers, overlays).addTo(map);
+    
+    var legend = L.control({
+      position: 'bottomleft'
+    });
+    
+    legend.onAdd = function(map) {
+      var div = L.DomUtil.create('div', 'info legend'),
+        opt_id = [10000, 25000, 50000, 75000, 500000],
+        labels = ['0-10,000', '10,001-25,000', '25,001-50,000', '50,001-75,000', '75,001-500,000'];
+
+      div.innerHTML += "<b>Counties by Population</b><br>";
+      for (var i = 0; i < labels.length; i++) {
+         div.innerHTML +='<i style="background:' + getColor(opt_id[i] ) + ' "></i> ' + labels[i]+'<br>';
+      }
+
+      return div;
+    };
+    legend.addTo(map);
+   
+    
+</script>
+</body>
+</html>>
