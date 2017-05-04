@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+
+        <title>Locey Assignment 14</title>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+        <script src="https://indicator.extension.iastate.edu/classes/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>
+
+        <style>
+
+            #map {
+                width: 800px;
+                height: 400px;
+            }
+
+            button {background-color: cadetblue; color:ghostwhite;padding:5px;margin-bottom: 10px;font-size:14px;}
+
+            html {
+                background: #e6e9e9;
+                background-image: linear-gradient(270deg, rgb(230, 233, 233) 0%, rgb(216, 221, 221) 100%);
+                -webkit-font-smoothing: antialiased;
+            }
+            body {
+                background: #fff;
+                box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
+                color: #545454;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 16px;
+                line-height: 1.5;
+                margin: 0 auto;
+                max-width: 800px;
+                padding: 2em 2em 4em;
+            }
+
+            h1, h2, h3 {
+                color: #222;
+                font-weight: 600;
+                line-height: 1.3;
+                text-align: center;
+            }
+
+        </style>
+
+    </head>
+    
+    <body>
+
+        <h1>Assignment 14</h1>
+            <h2>Mackenzie Locey</h2>
+            <h3>CRP 458</h3>
+         
+            <hr>
+        
+        <h2>Load weather data for your location</h2>
+        <h4>Enter the name of the city you would like current weather data for</h4>
+        <input type='text' id='city' value='Ames, IA'>&nbsp;&nbsp;
+        <input type='button' id='load' value='Load Current Weather'><br><br>
+        
+        <div id='weather'></div>
+
+        <div id='map'></div>
+
+        <script>
+
+            var OSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+           
+            var marker = ' ';
+
+            var map = L.map('map', {
+                center: [41.55, -93.616643],
+                zoom: 6,
+                layers: [OSM]
+            });
+            
+            $(document).ready(function() {
+                var city = '';
+                $("#load").click(function() {
+                    city = $("#city").val();
+                    getWeather(function(data) {
+                        console.log('weather data received for ' + data.name);
+                        displayData = "<strong>" + "Current Weather for " + data.name + ":</strong> " + data.weather[0].description + "<br>" + " Temperature (F): " + data.main.temp + "<br>" + "Pressure:" + data.main.pressure + "<br>" + "Humidity:" + data.main.humidity + "<br>";
+                        displayData = displayData + "Longitude: " + data.coord.lon + "<br>Latitude: " + data.coord.lat + ". <br><br>";
+                        $("#weather").html(displayData);
+                        displayData = ""
+
+      map.removeLayer(marker);
+      marker = L.marker([data.coord.lat, data.coord.lon], {
+        draggable: false,
+        title: data.name,
+        opacity: 0.75,
+      }).addTo(map).bindPopup("Current Weather: " + data.weather[0].description + "<br>Temp: " + data.main.temp + " F");
+
+
+
+    });
+  });
+
+
+
+  function getWeather(callback) {
+    console.log(city);
+    var url =
+      'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&mode=json&units=imperial&appid=708bab24a42978b2b67d38bde1a4205a';
+    $.ajax({
+      dataType: "jsonp",
+      url: url,
+      success: callback
+    });
+  }
+});
+
+
+            
+        </script>
+
+    </body>
+    
+</html>>
