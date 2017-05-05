@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	
+	<title>Locey Assignment 15</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="https://profseeger.github.io/LA558/classes/Leaflet.awesome-markers/leaflet.awesome-markers.css">
+	
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	
+	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+	
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	
+
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+	
+
+   <script src="https://profseeger.github.io/LA558/classes/Leaflet.awesome-markers/leaflet.awesome-markers.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+	   
+	<script src="https://indicator.extension.iastate.edu/classes/Leaflet.pattern-master/dist/leaflet.pattern-src.js"></script>
+	  
+	<script src="https://indicator.extension.iastate.edu/classes/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>
+    
+    
+    
+    <style>
+        
+
+		#map {
+			width: 750px;
+			height: 400px;
+		}
+        
+        button {background-color: cadetblue; color:ghostwhite;padding:5px;margin-bottom: 10px;font-size:14px;}
+        
+        html {
+            background: #e6e9e9;
+            background-image: linear-gradient(270deg, rgb(230, 233, 233) 0%, rgb(216, 221, 221) 100%);
+            -webkit-font-smoothing: antialiased;
+        }
+        body {
+            background: #fff;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
+            color: #545454;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 2em 2em 4em;
+        }
+    
+        h1, h2, h3 {
+            color: #222;
+            font-weight: 600;
+            line-height: 1.3;
+            text-align: center;
+        }
+</style>
+</head>
+<body>
+    
+    <h1>Assignment 15</h1>
+        <h2>Mackenzie Locey</h2>
+        <h3>CRP 458</h3>
+        <hr>
+
+<div id='map'></div>
+
+<script>
+	
+    var myURL = 'https://gist.githubusercontent.com/mllocey/22abf1701453b5ee4b77e26f719b3a0d/raw/28a247b02c3fed17f68a4291aee4b603f29e8d3b/iowacounties.geojson';
+    
+    var cities = new L.LayerGroup();
+    
+	L.marker([41.566927, -93.773800]).bindPopup('West Des Moines').addTo(cities),
+	L.marker([41.604542, -93.772962]).bindPopup('Clive').addTo(cities),
+	L.marker([41.651275, -93.480027]).bindPopup('Altoona').addTo(cities);
+    
+	var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+    
+	var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+		streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+	
+    var map = L.map('map', {
+		center: [42, -93.5],
+		zoom: 7,
+		layers: [streets]
+	});
+    
+    
+
+    
+    function getColor(d) {
+        return  d <= '10000'  ? '#FF5733  ' :
+                d <= '20000'  ? "#884EA0  " :
+                d <= '40000'  ? "#FFC300  " :
+                d <= '60000'  ? "#17A589  " : 
+                d <= '500000' ? "#DAF7A6" :
+                                "#FFFFFF"; 
+    }
+
+    var myData1 = L.geoJson.ajax(myURL, {
+        onEachFeature: function (feature, layer) {
+	       layer.setStyle({
+			     weight: 3,
+			     color: 'black',
+			     fillColor: getColor(feature.properties.Population),
+			     fillOpacity: 0.5
+            });
+        }
+    }).addTo(map);
+
+
+    
+    var bigStripe3 = new L.StripePattern({
+	   weight: 1,
+	   height: 2,
+	   angle: 0,
+	   opacity: 1,
+	   spaceOpacity: 0.15,
+    });
+
+
+    var bigStripe2 = new L.StripePattern({
+	   weight: 1,
+	   height: 4,
+	   angle: 45,
+	   opacity: 1,
+	   spaceOpacity: 0.5,
+    });
+
+
+    var bigStripe1 = new L.StripePattern({
+	   weight: 1,
+	   height: 8,
+	   angle: 90,
+	   opacity: 1,
+	   spaceOpacity: 0.5,
+    });
+
+
+    var bigStripe0 = new L.StripePattern({
+	   opacity: 0.0,
+	   spaceOpacity: 0.0,
+    });
+
+    
+    function getPattern(d) {
+        return  d <= '9'  ? bigStripe3 :
+                d <= '8'  ? bigStripe3 :
+                d <= '7'  ? bigStripe3 :
+                d <= '6'  ? bigStripe2 : 
+                d <= '5'  ? bigStripe2 :
+                d <= '4'  ? bigStripe2 :
+                d <= '3'  ? bigStripe1 :
+                d <= '2'  ? bigStripe1 :
+                d <= '1'  ? bigStripe1 :
+                            bigStripe0; 
+    }
+        
+    var myData2 = L.geoJson.ajax(myURL, {
+        onEachFeature: function (feature, layer) {
+	       layer.setStyle({
+			     weight: 1,
+			     color: 'black',
+			     fillPattern: getPattern(feature.properties.RUCC_2013),
+			     fillOpacity: 0.75
+		  });
+        }
+    }).addTo(map);
+ 
+    
+
+var geojsonLayer = new L.GeoJSON.AJAX(myURL , {
+      style: style,
+      onEachFeature: function (feature, layer) {
+            htmlText = "<strong>" + feature.properties.NAME+ "</strong><br>Population: " + feature.properties.Population;
+            layer.bindPopup(htmlText);
+        layer.bindTooltip(feature.properties.NAME);
+        }
+    }).addTo(map);
+    
+    var cityLayerGroup= new L.LayerGroup();
+     var polyline = L.polyline([
+        [41.588120, -93.616198],
+        [41.696967, -93.058046],
+        [42.026074, -93.626379]
+        ], {color: 'blue'}).addTo(cityLayerGroup);
+    
+    
+    var ames = L.marker([42.026074, -93.626379], {
+		icon: L.AwesomeMarkers.icon({
+			icon: 'star', 
+			prefix: 'fa', //from fonts awesome
+			markerColor: 'white',
+			iconColor: 'green',
+			spin: true
+		}) 
+});
+
+
+var newton = L.marker([41.696967, -93.058046], {
+		icon: L.AwesomeMarkers.icon({
+			icon: 'star', 
+			prefix: 'fa', //from Bootstrap
+			markerColor: 'white',
+			iconColor: 'yellow'
+		}) 
+});
+
+var desmoines = L.marker([41.588120, -93.616198], {
+		icon: L.AwesomeMarkers.icon({
+			icon: 'star', 
+			prefix: 'fa', 
+			markerColor: 'white',
+			iconColor: 'blue'
+		}) 
+});
+
+var bettendorf = L.marker([41.556902,-90.494917], {
+		icon: L.AwesomeMarkers.icon({
+			icon: 'flag', 
+			prefix: 'fa', 
+			markerColor: 'blue',
+			iconColor: 'yellow'
+		}) 
+});
+
+var allMarkers = new L.featureGroup([ames, newton, desmoines, bettendorf]);
+allMarkers.addTo(map);
+    
+    
+    var legend = L.control({
+      position: 'bottomleft'
+    });
+    
+    legend.onAdd = function(map) {
+      var div = L.DomUtil.create('div', 'info legend'),
+        opt_id = [10000, 25000, 50000, 75000, 500000],
+        labels = ['0-10,000', '10,001-20,000', '20,001-40,000', '40,001-60,000', '60,001-500,000'];
+      div.innerHTML += "<b>Counties by Population</b><br>";
+      for (var i = 0; i < labels.length; i++) {
+         div.innerHTML +='<i style="background:' + getColor(opt_id[i] ) + ' "></i> ' + labels[i]+'<br>';
+      }
+      return div;
+    };
+    legend.addTo(map);
+   
+    
+</script>
+</body>
+</html>>
